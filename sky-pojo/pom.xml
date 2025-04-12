@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+<!--    继承父工程-->
+    <parent>
+        <groupId>cn.zimeedu</groupId>
+        <artifactId>sky-take-out</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+<!--当前工程坐标，子模块自动继承父工程的 groupId 和 version，如果它们与父工程一致，就没有必要重复声明-->
+    <!-- 不能省略模块名，每个模块必须有一个唯一的标识符（artifactId），用来区分不同的模块或项目。-->
+    <artifactId>sky-pojo</artifactId>
+
+<!--如果父工程已经定义了 JDK 版本和编码格式（如 UTF-8），子工程可以省略这些配置-->
+
+<!--    依赖容器 依赖库-->
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--Jackson 库的核心模块之一，用于实现 Java 对象与 JSON 数据之间的相互转换（序列化和反序列化）-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!-- Knife4j 是一个增强版的 Swagger UI 工具，用于生成 API 文档并提供更友好的界面展示 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

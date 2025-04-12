@@ -1,0 +1,6 @@
+# 配置 Spring Boot 应用程序的相关属性
+spring:
+  # 定义应用程序的元信息
+  application:
+    # 设置当前 Spring Boot 应用的名称（应用名 整个项目的名字）
+    name: sky-take-out
