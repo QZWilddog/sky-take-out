@@ -1,7 +1,8 @@
 package cn.zimeedu.sky.service;
 
-import com.sky.dto.EmployeeLoginDTO;
-import com.sky.entity.Employee;
+
+import cn.zimeedu.sky.dto.EmployeeLoginDTO;
+import cn.zimeedu.sky.entity.Employee;
 
 public interface EmployeeService {
 

@@ -1,17 +1,18 @@
 package cn.zimeedu.sky.service.impl;
 
-import com.sky.constant.MessageConstant;
-import com.sky.constant.StatusConstant;
-import com.sky.dto.EmployeeLoginDTO;
-import com.sky.entity.Employee;
-import com.sky.exception.AccountLockedException;
-import com.sky.exception.AccountNotFoundException;
-import com.sky.exception.PasswordErrorException;
-import com.sky.mapper.EmployeeMapper;
-import com.sky.service.EmployeeService;
+
+import cn.zimeedu.sky.dto.EmployeeLoginDTO;
+import cn.zimeedu.sky.mapper.EmployeeMapper;
+import cn.zimeedu.sky.service.EmployeeService;
+import cn.zimeedu.sky.constant.MessageConstant;
+import cn.zimeedu.sky.constant.StatusConstant;
+
+import cn.zimeedu.sky.entity.Employee;
+import cn.zimeedu.sky.exception.AccountLockedException;
+import cn.zimeedu.sky.exception.AccountNotFoundException;
+import cn.zimeedu.sky.exception.PasswordErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -45,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
 
-        if (employee.getStatus() == StatusConstant.DISABLE) {
+        if (employee.getStatus().equals(StatusConstant.DISABLE)) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
