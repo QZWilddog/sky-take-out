@@ -64,7 +64,7 @@ sky:
   jwt:
     admin-secret-key: woaini
     # JWT 签名加密时使用的秘钥，用于生成和解析令牌。
-    admin-ttl: 86,400,000
+    admin-ttl: 86400000
     # JWT 的过期时间
     admin-token-name: token
     # 前端传递过来的令牌名称，用于标识 HTTP 请求头中的 Token。

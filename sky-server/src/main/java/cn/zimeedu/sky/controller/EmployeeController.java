@@ -1,13 +1,13 @@
 package cn.zimeedu.sky.controller;
 
-import com.sky.constant.JwtClaimsConstant;
-import com.sky.dto.EmployeeLoginDTO;
-import com.sky.entity.Employee;
-import com.sky.properties.JwtProperties;
-import com.sky.result.Result;
-import com.sky.service.EmployeeService;
-import com.sky.utils.JwtUtil;
-import com.sky.vo.EmployeeLoginVO;
+import cn.zimeedu.sky.dto.EmployeeLoginDTO;
+import cn.zimeedu.sky.service.EmployeeService;
+import cn.zimeedu.sky.constant.JwtClaimsConstant;
+import cn.zimeedu.sky.entity.Employee;
+import cn.zimeedu.sky.properties.JwtProperties;
+import cn.zimeedu.sky.result.Result;
+import cn.zimeedu.sky.utils.JwtUtil;
+import cn.zimeedu.sky.vo.EmployeeLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
