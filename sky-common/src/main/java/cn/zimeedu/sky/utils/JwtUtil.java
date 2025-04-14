@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
+// 生成和解析令牌
 public class JwtUtil {
     /**
      * 生成jwt
