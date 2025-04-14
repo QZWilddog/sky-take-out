@@ -25,11 +25,13 @@
             <artifactId>sky-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <!--这是 Spring Boot 的核心启动器，提供了基础的自动配置和日志功能。 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
         <!--这是一个专门用于测试的启动器，集成了常用的测试框架（如 JUnit、Mockito）-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,6 +39,7 @@
             <!--scope 设置为 test，表示该依赖仅在测试环境中使用，不会被包含到生产环境的构建中。-->
             <scope>test</scope>
         </dependency>
+
         <!--这是 Spring Boot 的 Web 开发启动器，包含了开发 Web 应用所需的核心组件（如嵌入式 Tomcat 和 Spring MVC）-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,6 +47,7 @@
             <!--scope 默认为 compile，表示该依赖会在编译和运行时都生效。-->
             <scope>compile</scope>
         </dependency>
+
         <!--这是 MySQL 的 JDBC 驱动程序，用于连接和操作 MySQL 数据库 -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -91,16 +95,19 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
+
         <!--提供了对 Redis 数据库的支持，简化了缓存、消息队列等操作-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <!--提供了基于 Spring Cache 抽象层的缓存支持，支持多种缓存实现-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+
         <!--支持 WebSocket 协议，用于实现实时双向通信-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
