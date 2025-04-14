@@ -1,17 +1,19 @@
-package cn.zimeedu.sky.result;
+package com.sky.result;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 后端统一返回结果
- * 这种设计模式被称为“静态工厂方法模式”  封装对象创建过程：  提高可读性：  灵活性：  隐藏实现细节：
+ * @param <T>
  */
 @Data
 public class Result<T> implements Serializable {
-    private Integer code;  //编码：1成功，0和其它数字为失败
-    private T data;  //数据
-    private String msg;   //错误信息
+
+    private Integer code; //编码：1成功，0和其它数字为失败
+    private String msg; //错误信息
+    private T data; //数据
 
     public static <T> Result<T> success() {
         Result<T> result = new Result<T>();
@@ -32,4 +34,5 @@ public class Result<T> implements Serializable {
         result.code = 0;
         return result;
     }
+
 }

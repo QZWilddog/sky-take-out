@@ -54,12 +54,12 @@
     <!--自定义属性  自定义名字 规范一些 -->
         <lombok.version>1.18.36</lombok.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <mybatis.spring.boot.starter.version>2.2.0</mybatis.spring.boot.starter.version>
+        <mybatis.spring.boot.starter.version>3.0.4</mybatis.spring.boot.starter.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons.lang.version>2.6</commons.lang.version>
-        <druid.version>1.2.1</druid.version>
-        <pagehelper.version>1.3.0</pagehelper.version>
-        <aliyun.sdk.oss.version>3.10.2</aliyun.sdk.oss.version>
+<!--        <druid.version>1.2.1</druid.version>-->
+        <pagehelper.version>1.4.7</pagehelper.version>
+        <aliyun.sdk.oss.version>3.17.4</aliyun.sdk.oss.version>
         <knife4j.version>3.0.2</knife4j.version>
         <aspectj.version>1.9.4</aspectj.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
@@ -106,12 +106,12 @@
                 <artifactId>commons-lang</artifactId>
                 <version>${commons.lang.version}</version>
             </dependency>
-            <!-- Druid 是阿里巴巴提供的数据库连接池组件，支持监控、统计和高性能连接管理 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
+<!--            &lt;!&ndash; Druid 是阿里巴巴提供的数据库连接池组件，支持监控、统计和高性能连接管理 用不了-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba</groupId>-->
+<!--                <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--                <version>${druid.version}</version>-->
+<!--            </dependency>-->
             <!-- PageHelper 是一个分页插件，用于简化 MyBatis 查询中的分页功能 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
