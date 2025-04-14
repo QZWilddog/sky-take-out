@@ -1,6 +1,70 @@
+server:
+  port: 8080
+  # 配置 Spring Boot 应用程序运行时的端口号，默认为 8080。
+
 # 配置 Spring Boot 应用程序的相关属性
 spring:
   # 定义应用程序的元信息
   application:
-    # 设置当前 Spring Boot 应用的名称（应用名 整个项目的名字）
     name: sky-take-out
+    # 设置当前 Spring Boot 应用的名称（应用名），这个名称通常用于日志、监控等场景，表示整个项目的名字。
+
+  profiles:
+    active: dev
+    # 指定当前激活的环境配置，例如 dev（开发环境）、test（测试环境）、prod（生产环境）。
+    # 这里设置为 dev，表示使用开发环境的配置。
+
+  main:
+    allow-circular-references: true
+    # 允许 Spring 容器中存在循环依赖。如果某些 Bean 之间相互依赖，开启此选项可以避免启动报错。
+
+  datasource:
+    driver-class-name: ${sky.datasource.driver-class-name}
+    # 数据库驱动类名，${} 表示从外部配置（如环境变量或配置文件）中读取值。
+    url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    # 数据库连接 URL，包含主机地址、端口、数据库名等信息。
+    # serverTimezone=Asia/Shanghai：设置时区为上海。
+    # useUnicode=true&characterEncoding=utf-8：支持中文字符。
+    # zeroDateTimeBehavior=convertToNull：将无效日期转换为 null。
+    # useSSL=false：禁用 SSL 加密连接。
+    # allowPublicKeyRetrieval=true：允许客户端获取公钥。
+    username: ${sky.datasource.username}
+    # 数据库用户名，从外部配置中读取。
+    password: ${sky.datasource.password}
+    # 数据库密码，从外部配置中读取。
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      # 最大单个文件大小，限制上传文件的大小不能超过 10MB。
+      max-request-size: 100MB
+      # 最大请求大小，包括所有文件和表单数据的总大小，不能超过 100MB。
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  # MyBatis 的 Mapper 配置文件路径，classpath 表示在 resources 目录下查找。
+  type-aliases-package: com.sky.entity
+  # MyBatis 的实体类包路径，指定实体类所在的包。
+  configuration:
+    map-underscore-to-camel-case: true
+    # 开启驼峰命名规则映射，例如数据库字段名 user_name 自动映射到实体类属性 userName。
+
+logging:
+  level:
+    com:
+      sky:
+        mapper: debug
+        # 设置 Mapper 层的日志级别为 debug，方便调试 SQL 执行情况。
+        service: info
+        # 设置 Service 层的日志级别为 info，记录一般性日志信息。
+        controller: info
+        # 设置 Controller 层的日志级别为 info，记录接口调用日志。
+
+sky:
+  jwt:
+    admin-secret-key: woaini
+    # JWT 签名加密时使用的秘钥，用于生成和解析令牌。
+    admin-ttl: 86,400,000
+    # JWT 的过期时间
+    admin-token-name: token
+    # 前端传递过来的令牌名称，用于标识 HTTP 请求头中的 Token。
