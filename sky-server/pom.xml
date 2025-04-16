@@ -90,7 +90,7 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-
+<!--         Knife4j 是一个增强版的 Swagger UI 工具  是一个专注于 Swagger 的增强实现 专门针对 Java 项目设计的工具 帮助开发者快速生成美观且功能丰富的 RESTful API 文档-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>

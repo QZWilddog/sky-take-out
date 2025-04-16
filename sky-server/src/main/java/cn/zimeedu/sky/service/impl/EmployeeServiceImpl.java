@@ -13,6 +13,9 @@ import cn.zimeedu.sky.exception.AccountNotFoundException;
 import cn.zimeedu.sky.exception.PasswordErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -40,7 +43,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         //密码比对
-        // TODO 后期需要进行md5加密，然后再进行比对
+        //进行md5加密，然后进行比对        使用 DigestUtils 计算 MD5 哈希值        DigestUtils工具类，主要用于简化加密哈希算法的操作  md5DigestAsHex使用 MD5 算法计算其哈希值
+        password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));  // 这是因为哈希函数（如 MD5）需要处理的是二进制数据，而不是直接处理字符串 指定字符集为UTF-8  StandardCharsets常用字符集的常量引用
         if (!password.equals(employee.getPassword())) {
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
