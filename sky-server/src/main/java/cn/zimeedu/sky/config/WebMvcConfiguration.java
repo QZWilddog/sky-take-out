@@ -1,8 +1,14 @@
 package cn.zimeedu.sky.config;
 
+import cn.zimeedu.sky.interceptor.JwtTokenAdminInterceptor;
+import json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -11,6 +17,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.List;
 
 /**
  * 配置类，注册web层相关组件
@@ -22,6 +30,23 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 @Slf4j
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
+
+    // 要让你的拦截器生效，需要将它注册到 Spring MVC 的拦截器链中
+    @Autowired
+    private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+
+    /**
+     * 注册自定义拦截器  重写MVC拦截器规则
+     * 要让你的拦截器生效，需要将它注册到 Spring MVC 的拦截器链中
+     * @param registry
+     */
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {  // 通过 InterceptorRegistry 可以注册拦截器，并设置拦截器的作用范围  是 Spring MVC 中的一个辅助类，用于注册和配置拦截器
+        // 注册拦截器并指定拦截路径
+        registry.addInterceptor(jwtTokenAdminInterceptor)  // 将自定义的拦截器添加到拦截器链中
+                .addPathPatterns("/**") // 拦截所有请求
+                .excludePathPatterns("/admin/employee/login", "/admin/employee/logout"); // 排除登录和登出接口
+    }
 
     /**
      * 通过knife4j生成接口文档
@@ -41,7 +66,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)  // 定文档类型为 DocumentationType.SWAGGER_2，表示使用 Swagger 2 规范。
                 .apiInfo(apiInfo)  //  调用 apiInfo 方法，将上面创建的 ApiInfo 对象设置到 Docket 中
                 .select()  // 方法返回一个 ApiSelectorBuilder 对象，用于配置接口扫描规则
-                .apis(RequestHandlerSelectors.basePackage("cn.zimeedu.sky.controller"))  //  指定生成接口要扫描的包路径  即只扫描该包下的控制器类
+                .apis(RequestHandlerSelectors.basePackage("cn.zimeedu.sky.controller.admin"))  //  指定生成接口要扫描的包路径  即只扫描该包下的控制器类
                 .paths(PathSelectors.any())  // 指定路径匹配规则，PathSelectors.any() 表示匹配所有路径。
                 .build();  //生成目标对象
         return docket;
@@ -60,5 +85,21 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         // 配置 /webjars/** 的访问路径
         registry.addResourceHandler("/webjars/**")  // 表示匹配所有以 /webjars/ 开头的请求路径。** 是通配符，表示任意子路径。
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");  // 指定资源的实际位置，这里是类路径下的 /META-INF/resources/webjars/ 目录。
+    }
+
+    /**
+     * 扩展mvc框架的消息转换器  统一处理后端返回给前端的数据(日期格式化等)
+     * @param converters
+     * */
+    @Override
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("开始扩展消息转换器...");
+
+        // 创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        // 为消息转换器设置对象转换器，对象转换器可以将java对象序列化为json数据
+        converter.setObjectMapper(new JacksonObjectMapper());
+        // 将自定义的消息转换器加入消息转换器容器中 让MVC使用  并且优先级最高
+        converters.add(0, converter);
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.CategoryMapper">
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型 -->
+
+    <select id="page" resultType="Category">
+        select * from category
+        <where>
+            <if test="name != null and name != ''">name like concat('%',#{name},'%')</if>
+            <if test="type != null">type = #{type}</if>
+        </where>order by sort
+    </select>
+
+    <update id="update">
+        update category
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateUser != null">update_user = #{updateUser}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="save">
+        insert into category (name, type, sort, status, create_time, update_time, create_user, update_user)
+        values
+            (#{name}, #{type}, #{sort}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+</mapper>
