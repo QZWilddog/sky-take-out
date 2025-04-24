@@ -35,7 +35,7 @@ public class CommonController {
             String filePath = aliOssUtil.upload(file.getBytes(), file.getOriginalFilename());//  获取原始文件名
 
             return Result.success(filePath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.info("文件上传失败:{}", e);
         }
         return Result.error(MessageConstant.UPLOAD_FAILED);

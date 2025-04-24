@@ -2,7 +2,9 @@ package cn.zimeedu.sky.utils;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.common.auth.CredentialsProvider;
+import com.aliyun.oss.common.auth.CredentialsProviderFactory;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
@@ -24,12 +26,10 @@ public class AiOssUtil {
 
     private String endpoint;
     private String region;
-    private String accessKeyId;
-    private String accessKeySecret;
     private String bucketName;
 
 
-    public String upload(byte[] bytes, String originalFilename){
+    public String upload(byte[] bytes, String originalFilename) throws Exception {
 
 
         // 填写Object完整路径，例如202406/1.png(每个月一个文件夹方便维护)。Object完整路径中不能包含Bucket名称。
@@ -45,7 +45,9 @@ public class AiOssUtil {
         clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
 
         // 使用分开的密钥
-        CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
+//        CredentialsProvider credentialsProvider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
+        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+        EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
 
         OSS ossClient = OSSClientBuilder.create()
                 .endpoint(endpoint)

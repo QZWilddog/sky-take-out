@@ -20,8 +20,6 @@ public class OssConfiguration {
         return AiOssUtil.builder()
                 .endpoint(aliOssPropertes.getEndpoint())
                 .region(aliOssPropertes.getRegion())
-                .accessKeyId(aliOssPropertes.getAccessKeyId())
-                .accessKeySecret(aliOssPropertes.getAccessKeySecret())
                 .bucketName(aliOssPropertes.getBucketName())
                 .build();
     }

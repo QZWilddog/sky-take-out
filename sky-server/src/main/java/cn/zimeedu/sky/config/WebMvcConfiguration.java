@@ -1,7 +1,7 @@
 package cn.zimeedu.sky.config;
 
 import cn.zimeedu.sky.interceptor.JwtTokenAdminInterceptor;
-import json.JacksonObjectMapper;
+import cn.zimeedu.sky.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

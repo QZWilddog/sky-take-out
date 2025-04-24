@@ -1,4 +1,4 @@
-package json;
+package cn.zimeedu.sky.json;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
