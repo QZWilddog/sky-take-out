@@ -1,7 +1,15 @@
 package cn.zimeedu.sky.mapper;
 
+import cn.zimeedu.sky.annotation.AutoFill;
+import cn.zimeedu.sky.dto.DishPageQueryDTO;
+import cn.zimeedu.sky.entity.Dish;
+import cn.zimeedu.sky.enumeration.OperationType;
+import cn.zimeedu.sky.vo.DishVo;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface DishMapper {  // 菜品表管理
@@ -11,4 +19,27 @@ public interface DishMapper {  // 菜品表管理
      * */
     @Select("select  count(id) from dish where category_id = #{categoryId}")
     Integer countByCategoryId(Long categoryId);
+
+    /**
+     * 新增菜品
+     * */
+    @AutoFill(value = OperationType.INSERT)
+    void save(Dish dish);
+
+    /**
+     * 分页查询菜品
+     * */
+    Page<DishVo> page(DishPageQueryDTO dishPageQueryDTO);
+
+    @Select("select * from dish where id = #{id}")
+    Dish getById(Long id);
+
+    /**
+     * 批量删除菜品
+     * */
+    void delBatch(List<Long> dishIds);
+
+    // 修改菜品
+    @AutoFill(OperationType.UPDATE)
+    void update(Dish dish);
 }

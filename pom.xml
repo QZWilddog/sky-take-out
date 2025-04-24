@@ -64,6 +64,8 @@
         <aspectj.version>1.9.4</aspectj.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <poi.version>3.16</poi.version>
+        <activation.version>1.1.1</activation.version>
+        <jaxb-runtiome.version>2.3.3</jaxb-runtiome.version>
     </properties>
 
 <!-- 项目的依赖项 直接引入的依赖-->
@@ -142,12 +144,26 @@
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun.sdk.oss.version}</version>
             </dependency>
+            <!--如果使用的是Java 9及以上的版本，则需要添加以下JAXB相关依赖。 下面三个-->
             <!-- JAXB API 是 Java 提供的 XML 绑定框架，用于将 Java 对象与 XML 数据相互转换 -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api.version}</version>
             </dependency>
+            <!--jaxb-api 只定义了接口，而 jaxb-runtime 提供了这些接口的实际实现。-->
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-runtiome.version}</version>
+            </dependency>
+            <!--JAF 是一个用于处理 MIME 类型数据的框架。-->
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${activation.version}</version>
+            </dependency>
+
             <!-- Apache POI 是一个用于操作 Microsoft Office 文件（如 Excel、Word）的库，支持读写 Excel 文件 -->
             <dependency>
                 <groupId>org.apache.poi</groupId>

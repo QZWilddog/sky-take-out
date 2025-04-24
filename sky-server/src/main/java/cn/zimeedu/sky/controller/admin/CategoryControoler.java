@@ -6,13 +6,17 @@ import cn.zimeedu.sky.entity.Category;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.result.Result;
 import cn.zimeedu.sky.service.CategoryService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/admin/category")
+@Api(tags = "分类相关接口、")
 public class CategoryControoler {
 
     @Autowired
@@ -71,5 +75,16 @@ public class CategoryControoler {
         categoryService.deleteById(id);
 
         return Result.success("删除成功");
+    }
+
+    /**
+     * 根据类型查询分类
+     * */
+    @GetMapping("/list")
+    public Result<List<Category>> list(Integer type){
+        log.info("根据类型查询分类：{}", type);
+        List<Category> categories = categoryService.list(type);
+
+        return Result.success(categories);
     }
 }

@@ -2,7 +2,10 @@ package cn.zimeedu.sky.service;
 
 import cn.zimeedu.sky.dto.CategoryDTO;
 import cn.zimeedu.sky.dto.CategoryPageQueryDTO;
+import cn.zimeedu.sky.entity.Category;
 import cn.zimeedu.sky.result.PageResult;
+
+import java.util.List;
 
 public interface CategoryService {
 
@@ -16,5 +19,7 @@ public interface CategoryService {
     void save(CategoryDTO categoryDTO);
     // 删除菜品或分类
     void deleteById(Long id);
+    // 分页查询菜品和分类
+    List<Category> list(Integer type);
 
 }

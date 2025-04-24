@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.DishFlavorMapper">
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型 -->
+
+    <!--  这种批量插入好  集合中的每个元素，并为每个元素生成一组括号内的内容。   (1, 'Spicy', 'High'), (2, 'Sweet', 'Medium')-->
+    <insert id="saveBatch">
+        insert into dish_flavor (dish_id, name, value) values
+            <foreach collection="flavors" item="df" separator=",">
+                (#{df.dishId}, #{df.name}, #{df.value})
+            </foreach>
+    </insert>
+
+    <delete id="delBatch">
+        delete from dish_flavor where dish_id in
+            <foreach collection="dishIds" item="dishId" open="(" close=")" separator=",">
+                #{dishId}
+            </foreach>
+    </delete>
+
+    <!--    <foreach>：遍历集合，拼接SQL。-->
+    <!--    这里用到Mybatis中的动态SQL里提供的 <foreach> 标签，改标签的作用，是用来遍历循环，常见的属性说明：-->
+    <!--    1. collection：需要遍历集合名称-->
+    <!--    2. item：集合遍历出来的元素/项-->
+    <!--    3. separator：每次循环之间的分隔符-->
+    <!--    4. open：遍历开始前拼接的片段-->
+    <!--    5. close：遍历结束后拼接的片段-->
+</mapper>

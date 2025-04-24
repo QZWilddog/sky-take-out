@@ -7,6 +7,9 @@ import cn.zimeedu.sky.enumeration.OperationType;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {  // 分类表管理
@@ -29,4 +32,7 @@ public interface CategoryMapper {  // 分类表管理
      * */
     @Delete("delete from category where id = #{id}")
     void deleteById(Long id);
+    // 分页查询菜品和分类
+    @Select("select * from category where type = #{type}")
+    List<Category> list(Integer type);
 }

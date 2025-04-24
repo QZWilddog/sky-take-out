@@ -1,6 +1,5 @@
 package cn.zimeedu.sky.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,27 +7,37 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-// 分类表，用于存储商品的分类信息。
-public class Category implements Serializable {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Setmeal implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
+    //分类id
+    private Long categoryId;
+
+    //套餐名称
     private String name;
 
-    private Integer type;
+    //套餐价格
+    private BigDecimal price;
 
-    private Integer sort;
-
+    //状态 0:停用 1:启用
     private Integer status;
+
+    //描述信息
+    private String description;
+
+    //图片
+    private String image;
 
     private LocalDateTime createTime;
 
