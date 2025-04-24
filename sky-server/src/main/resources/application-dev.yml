@@ -1,0 +1,13 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: 123456
+
+  alioss:
+    bucket-name: learn-sky-take
+    region: cn-hangzhou
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
