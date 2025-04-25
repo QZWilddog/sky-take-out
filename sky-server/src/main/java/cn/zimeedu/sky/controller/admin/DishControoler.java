@@ -52,7 +52,7 @@ public class DishControoler {
     }
 
     @GetMapping("/{id}")
-    public Result<DishVo> getById(@PathVariable Long id){
+    public Result<DishVo> getByIdWithFlavor(@PathVariable Long id){
         log.info("查询菜品:{}", id);
 
         DishVo dishVo =  dishService.getByIdWithFlavor(id);
@@ -74,5 +74,13 @@ public class DishControoler {
         dishService.setStatus(status, id);
 
         return Result.success("操作成功");
+    }
+
+    @GetMapping("/list")
+    public Result<List<Dish>> list(Long categoryId){
+        log.info("根据菜品分类查询菜品：{}", categoryId);
+        List<Dish> dishes =  dishService.list(categoryId);
+
+        return Result.success(dishes);
     }
 }

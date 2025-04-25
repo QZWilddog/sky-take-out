@@ -6,9 +6,23 @@
 <!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
 <!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
 <mapper namespace="cn.zimeedu.sky.mapper.SetmealDishMapper">
+
     <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
     <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型 -->
 
+    <insert id="saveBatch">
+        insert into setmeal_dish (setmeal_id, dish_id, name, price, copies)  values
+        <foreach collection="setmealDishes" item="sd" separator=",">
+            (#{sd.setmealId}, #{sd.dishId}, #{sd.name}, #{sd.price}, #{sd.copies})
+        </foreach>
+    </insert>
+
+    <delete id="delBatch">
+        delete from setmeal_dish where setmeal_id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+    </delete>
 
     <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
         select id from setmeal_dish where dish_id in

@@ -30,4 +30,6 @@ public interface DishService {
     void updateWithFlavor(DishDTO dishDTO);
     // 启售或禁用菜品
     void setStatus(Integer status, Long id);
+    // 根据菜品分类查询 菜品
+    List<Dish> list(Long categoryId);
 }
