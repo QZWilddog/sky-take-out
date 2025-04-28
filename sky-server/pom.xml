@@ -129,6 +129,21 @@
             <artifactId>poi-ooxml</artifactId>
         </dependency>
 
+        <!--：引入 mockito-core 依赖，用于单元测试中的模拟（Mocking）    Mockito 是一个流行的 Java 测试框架，允许你创建假对象（mock objects），以替代真实对象进行测试。例如，你可以模拟一个服务类的行为，而不需要实际调用数据库或外部 API。-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+<!--      引入 byte-buddy-agent 依赖，用于动态代理支持  ByteBuddy 是 Mockito 的底层库，用于生成动态代理类（dynamic proxies）。在某些情况下（如内联 Mocks），Mockito 需要通过 Java Agent 来修改 JVM 的字节码行为，因此需要这个依赖。 -->
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>1.15.11</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 <!--    定义项目的构建过程和相关配置-->
@@ -141,6 +156,42 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- 配置 Maven Surefire 插件，用于运行单元测试 -->
+            <plugin>
+                <!-- 插件的 Group ID，表示该插件属于 Apache Maven 官方插件库 -->
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <!-- 插件的 Artifact ID，标识这是一个用于运行测试的插件 -->
+                <artifactId>maven-surefire-plugin</artifactId>
+
+                <!-- 插件的版本号，确保使用最新稳定版本以获得更好的功能和兼容性 -->
+                <version>3.0.0</version>
+
+                <!-- 插件的配置部分 -->
+                <configuration>
+                    <!-- JVM 参数配置，传递给测试运行时环境 -->
+                    <argLine>
+                        <!--
+                            -javaagent: 加载 ByteBuddy 的 Java Agent，用于支持 Mockito 的动态代理功能。
+                            ${settings.localRepository}: Maven 的内置变量，指向本地仓库路径（通常是 ~/.m2/repository）。
+                            /net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar: ByteBuddy Agent 的具体路径。
+                            这个参数确保 Mockito 能够正常工作，避免类似以下警告：
+                            "WARNING: A Java agent has been loaded dynamically"
+                        -->
+                        -javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar
+
+                        <!--
+                            -Xshare:off: 禁用 JVM 的共享类功能（Class Data Sharing, CDS）。
+                            如果不加这个参数，可能会看到类似以下警告：
+                            "Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes"
+                            禁用共享类功能可以避免这些警告，同时确保测试环境的稳定性。
+                        -->
+                        -Xshare:off
+                    </argLine>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

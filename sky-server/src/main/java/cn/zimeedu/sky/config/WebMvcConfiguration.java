@@ -53,8 +53,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @return
      */
     @Bean
-    public Docket docket() {
-        log.info("准备生成接口文档...");
+    public Docket docketAdmin() {
+        log.info("准备生成Admin接口文档...");
         // 创建 ApiInfo 对象  构建接口文档的基本信息 是一个构建器类，用于逐步设置接口文档的基本信息
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("苍穹外卖项目接口文档")   // 接口文档的标题
@@ -64,9 +64,35 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
         // 创建并配置 Docket 对象 是 Swagger 的核心类，用于定义和配置接口文档的行为
         Docket docket = new Docket(DocumentationType.SWAGGER_2)  // 定文档类型为 DocumentationType.SWAGGER_2，表示使用 Swagger 2 规范。
+                .groupName("管理端接口")  // 分组展示 因为有两份不通接口
                 .apiInfo(apiInfo)  //  调用 apiInfo 方法，将上面创建的 ApiInfo 对象设置到 Docket 中
                 .select()  // 方法返回一个 ApiSelectorBuilder 对象，用于配置接口扫描规则
                 .apis(RequestHandlerSelectors.basePackage("cn.zimeedu.sky.controller.admin"))  //  指定生成接口要扫描的包路径  即只扫描该包下的控制器类
+                .paths(PathSelectors.any())  // 指定路径匹配规则，PathSelectors.any() 表示匹配所有路径。
+                .build();  //生成目标对象
+        return docket;
+    }
+
+    /**
+     * 通过knife4j生成接口文档
+     * @return
+     */
+    @Bean
+    public Docket docketUser() {
+        log.info("准备生成User接口文档...");
+        // 创建 ApiInfo 对象  构建接口文档的基本信息 是一个构建器类，用于逐步设置接口文档的基本信息
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("苍穹外卖项目接口文档")   // 接口文档的标题
+                .version("2.0")   //  接口文档的版本号
+                .description("苍穹外卖项目接口文档")  //  接口文档的描述信息
+                .build();  // 生成目标对象  这个对象包含了接口文档的所有基本信息，后续会被传递给 Docket 使用
+
+        // 创建并配置 Docket 对象 是 Swagger 的核心类，用于定义和配置接口文档的行为
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)  // 定文档类型为 DocumentationType.SWAGGER_2，表示使用 Swagger 2 规范。
+                .groupName("用户端接口")
+                .apiInfo(apiInfo)  //  调用 apiInfo 方法，将上面创建的 ApiInfo 对象设置到 Docket 中
+                .select()  // 方法返回一个 ApiSelectorBuilder 对象，用于配置接口扫描规则
+                .apis(RequestHandlerSelectors.basePackage("cn.zimeedu.sky.controller.user"))  //  指定生成接口要扫描的包路径  即只扫描该包下的控制器类
                 .paths(PathSelectors.any())  // 指定路径匹配规则，PathSelectors.any() 表示匹配所有路径。
                 .build();  //生成目标对象
         return docket;

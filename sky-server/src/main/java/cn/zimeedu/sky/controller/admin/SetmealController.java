@@ -41,7 +41,7 @@ public class SetmealController {
     public Result<Object> save(@RequestBody SetmealDTO setmealDTO){
         log.info("新增套餐：{}", setmealDTO);
 
-        setmealService.save(setmealDTO);
+        setmealService.saveWithDish(setmealDTO);
 
         return Result.success("新增套餐成功");
     }

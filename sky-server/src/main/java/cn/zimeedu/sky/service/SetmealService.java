@@ -14,7 +14,7 @@ public interface SetmealService {
     PageResult page(SetmealPageQueryDTO setmealPageQueryDTO);
 
     // 新增套餐
-    void save(SetmealDTO setmealDTO);
+    void saveWithDish(SetmealDTO setmealDTO);
     // 根据id查询套餐与包含的菜品
     SetmealVo getByIdWithDish(Long id);
     // 修改套餐

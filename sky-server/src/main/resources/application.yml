@@ -36,6 +36,18 @@ spring:
     password: ${sky.datasource.password}
     # 数据库密码，从外部配置中读取。
 
+  data:
+    redis:
+    #配置redis数据源
+      host: ${sky.redis.host}
+      # 配置redis连接 url
+      port: ${sky.redis.port}
+      # 配置redis监听端口号
+      password: ${sky.redis.password}
+      # 密码
+      database: ${sky.redis.database}
+    # 配置连接的redis连接数据库 0~15  默认连接0
+
   # 配置与 Servlet 相关的属性，如文件上传限制、会话管理等。
   servlet:
     # 数据处理的相关属性。
@@ -89,4 +101,3 @@ sky:
     #  阿里云 OSS 所属的区域（Region）
     bucket-name: ${sky.alioss.bucket-name}
     # 阿里云 OSS 的存储空间名称（Bucket Name）
-

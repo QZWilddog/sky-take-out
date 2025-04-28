@@ -47,7 +47,7 @@ public class SetmealServiceImp implements SetmealService {
 
     @Override
     @Transactional
-    public void save(SetmealDTO setmealDTO) {
+    public void saveWithDish(SetmealDTO setmealDTO) {
 
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO, setmeal);
@@ -56,9 +56,9 @@ public class SetmealServiceImp implements SetmealService {
         List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
         if(setmealDishes != null && !setmealDishes.isEmpty()){
             setmealDishes.forEach(setmealDish -> {setmealDish.setSetmealId(setmeal.getId());});
-
             setmealDishMapper.saveBatch(setmealDishes);
         }
+
     }
 
     @Override

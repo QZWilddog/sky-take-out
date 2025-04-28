@@ -11,3 +11,9 @@ sky:
     bucket-name: learn-sky-take
     region: cn-hangzhou
     endpoint: https://oss-cn-hangzhou.aliyuncs.com
+
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 10
