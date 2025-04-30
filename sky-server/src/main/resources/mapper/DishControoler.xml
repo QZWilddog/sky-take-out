@@ -37,13 +37,21 @@
             </foreach>
     </delete>
 
-    <select id="page" resultType="cn.zimeedu.sky.vo.DishVo">
+    <select id="page" resultType="cn.zimeedu.sky.vo.DishVO">
         select dish.*, category.name as categoryName from dish left join category on dish.category_id = category.id
         <where>
             <if test="categoryId != null">dish.category_id = #{categoryId}</if>
             <if test="name != null">and dish.name like concat('%',#{name}, '%')</if>
             <if test="status != null">and dish.status = #{status}</if>
         </where> order by update_time desc
+    </select>
+
+    <select id="list" resultType="cn.zimeedu.sky.entity.Dish">
+        select * from dish
+        <where>
+            <if test="categoryId != null">category_id = #{categoryId}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
     </select>
 
 </mapper>

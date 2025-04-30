@@ -1,7 +1,8 @@
 package cn.zimeedu.sky.vo;
 
-import cn.zimeedu.sky.entity.DishFlavor;
+import cn.zimeedu.sky.entity.SetmealDish;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,28 +18,34 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "菜品分类查询")
-public class DishVo implements Serializable {
+@ApiModel("套操分页展示数据模型")
+public class SetmealVO implements Serializable {
 
+    @ApiModelProperty("套餐ID")
     private Long id;
-    //菜品名称
-    private String name;
-    //菜品分类id
+
+    //分类id
     private Long categoryId;
-    //菜品价格
+
+    //套餐名称
+    private String name;
+
+    //套餐价格
     private BigDecimal price;
-    //图片
-    private String image;
+
+    //状态 0:停用 1:启用
+    private Integer status;
+
     //描述信息
     private String description;
-    //0 停售 1 起售
-    private Integer status;
-    //更新时间
-    private LocalDateTime updateTime;
-    //分类名称
-    private String categoryName;
-    //菜品关联的口味
-    private List<DishFlavor> flavors = new ArrayList<>();
 
-    //private Integer copies;
+    //图片
+    private String image;
+
+    private LocalDateTime updateTime;
+
+    private String categoryName;
+
+    //套餐和菜品的关联关系
+    private List<SetmealDish> setmealDishes = new ArrayList<>();
 }

@@ -3,14 +3,12 @@ package cn.zimeedu.sky.controller.admin;
 
 import cn.zimeedu.sky.dto.SetmealDTO;
 import cn.zimeedu.sky.dto.SetmealPageQueryDTO;
-import cn.zimeedu.sky.mapper.SetmealMapper;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.result.Result;
 import cn.zimeedu.sky.service.SetmealService;
-import cn.zimeedu.sky.vo.SetmealVo;
+import cn.zimeedu.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,9 +45,9 @@ public class SetmealController {
     }
 
     @GetMapping("/{id}")
-    public Result<SetmealVo> getByIdWithDish(@PathVariable Long id){
+    public Result<SetmealVO> getByIdWithDish(@PathVariable Long id){
         log.info("根据id查询套餐与包含的菜品：{}", id);
-        SetmealVo setmealVo =  setmealService.getByIdWithDish(id);
+        SetmealVO setmealVo =  setmealService.getByIdWithDish(id);
 
         return Result.success(setmealVo);
     }

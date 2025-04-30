@@ -4,7 +4,7 @@ import cn.zimeedu.sky.annotation.AutoFill;
 import cn.zimeedu.sky.dto.DishPageQueryDTO;
 import cn.zimeedu.sky.entity.Dish;
 import cn.zimeedu.sky.enumeration.OperationType;
-import cn.zimeedu.sky.vo.DishVo;
+import cn.zimeedu.sky.vo.DishVO;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -29,7 +29,7 @@ public interface DishMapper {  // 菜品表管理
     /**
      * 分页查询菜品
      * */
-    Page<DishVo> page(DishPageQueryDTO dishPageQueryDTO);
+    Page<DishVO> page(DishPageQueryDTO dishPageQueryDTO);
 
     @Select("select * from dish where id = #{id}")
     Dish getById(Long id);
@@ -43,7 +43,6 @@ public interface DishMapper {  // 菜品表管理
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
 
-    // 根据菜品分类id 查询菜品
-    @Select("select * from dish where category_id = #{categorId}")
-    List<Dish> list(Long categoryId);
+    // // 动态条件查询菜品
+    List<Dish> list(Dish dish);
 }

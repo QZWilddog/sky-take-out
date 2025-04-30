@@ -45,7 +45,7 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
-
+        <!--这个依赖底层使用到了HttpClient 因为依赖传递所以不用单独导入依赖-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>

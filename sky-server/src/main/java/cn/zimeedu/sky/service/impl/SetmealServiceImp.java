@@ -13,12 +13,12 @@ import cn.zimeedu.sky.mapper.SetmealDishMapper;
 import cn.zimeedu.sky.mapper.SetmealMapper;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.service.SetmealService;
-import cn.zimeedu.sky.vo.SetmealVo;
+import cn.zimeedu.sky.vo.DishItemVO;
+import cn.zimeedu.sky.vo.SetmealVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +40,7 @@ public class SetmealServiceImp implements SetmealService {
     public PageResult page(SetmealPageQueryDTO setmealPageQueryDTO) {
         PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
 
-        Page<SetmealVo> setmeals = setmealMapper.page(setmealPageQueryDTO);
+        Page<SetmealVO> setmeals = setmealMapper.page(setmealPageQueryDTO);
 
         return new PageResult(setmeals.getTotal(), setmeals.getResult());
     }
@@ -62,9 +62,9 @@ public class SetmealServiceImp implements SetmealService {
     }
 
     @Override
-    public SetmealVo getByIdWithDish(Long id) {
+    public SetmealVO getByIdWithDish(Long id) {
 
-        SetmealVo setmealVo =  new SetmealVo();
+        SetmealVO setmealVo =  new SetmealVO();
 
         Setmeal setmeal = setmealMapper.getById(id);
         BeanUtils.copyProperties(setmeal, setmealVo);
@@ -127,5 +127,17 @@ public class SetmealServiceImp implements SetmealService {
         setmealMapper.delBatch(ids);
         // 删除套餐关联的菜品
         setmealDishMapper.delBatch(ids);
+    }
+
+    @Override
+    public List<Setmeal> list(Setmeal setmeal) {
+
+        return setmealMapper.list(setmeal);
+    }
+
+    @Override
+    public List<DishItemVO> getDishItemById(Long id) {
+
+        return setmealMapper.getDishItemBySetmealId(id);
     }
 }

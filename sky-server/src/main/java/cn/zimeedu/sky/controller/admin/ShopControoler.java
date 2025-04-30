@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("adminShopControoler")  // 自定义的 Bean 名称。 避免命名冲突
 @RequestMapping("/admin/shop")
 @Slf4j
 @Api("店铺管理相关接口 打样等")

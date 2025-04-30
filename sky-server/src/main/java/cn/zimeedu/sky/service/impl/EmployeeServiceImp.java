@@ -25,7 +25,7 @@ import org.springframework.util.DigestUtils;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImp implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;

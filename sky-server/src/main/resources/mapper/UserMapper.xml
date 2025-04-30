@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.UserMapper">
+
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型 -->
+
+    <!--useGeneratedKeys="true" 获取数据库自动生成的主键值   keyProperty="id"：指定将生成的主键值赋值给实体类中的哪个属性。 -->
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        insert into user (openid, name, phone, sex, id_number, avatar, create_time)
+        values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
+    </insert>
+</mapper>

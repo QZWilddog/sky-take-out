@@ -19,7 +19,8 @@ public interface CategoryService {
     void save(CategoryDTO categoryDTO);
     // 删除菜品或分类
     void deleteById(Long id);
-    // 分页查询菜品和分类
+    // 根据分类查询菜品和分类
     List<Category> list(Integer type);
-
+    // User端根据分类查询菜品和分类
+    List<Category> listUser(Integer type, Integer status);
 }

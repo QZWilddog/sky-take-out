@@ -4,7 +4,8 @@ import cn.zimeedu.sky.annotation.AutoFill;
 import cn.zimeedu.sky.dto.SetmealPageQueryDTO;
 import cn.zimeedu.sky.entity.Setmeal;
 import cn.zimeedu.sky.enumeration.OperationType;
-import cn.zimeedu.sky.vo.SetmealVo;
+import cn.zimeedu.sky.vo.DishItemVO;
+import cn.zimeedu.sky.vo.SetmealVO;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -21,13 +22,13 @@ public interface SetmealMapper {  // 套餐表管理
     Integer countByCategoryId(Long id);
 
     // 套餐分页查询
-    Page<SetmealVo> page(SetmealPageQueryDTO setmealPageQueryDTO);
+    Page<SetmealVO> page(SetmealPageQueryDTO setmealPageQueryDTO);
 
     //新增套餐
     @AutoFill(OperationType.INSERT)
     void save(Setmeal setmeal);
 
-    // 根据id查询
+    // 根据id查询套餐
     @Select("select * from setmeal where id = #{id}")
     Setmeal getById(Long id);
 
@@ -37,4 +38,13 @@ public interface SetmealMapper {  // 套餐表管理
 
     // 批量删除套餐
     void delBatch(List<Long> ids);
+
+    // 动态条件查询套餐
+    List<Setmeal> list(Setmeal setmeal);
+
+    // 根据套餐id查询包含的菜品
+    @Select("select sd.name, sd.copies, dish.image, dish.description " +
+            "from setmeal_dish sd left join dish on sd.dish_id = dish.id " +
+            "where sd.setmeal_id = #{setmealId} ")
+    List<DishItemVO> getDishItemBySetmealId(Long setmealId);
 }

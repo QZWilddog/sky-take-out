@@ -14,11 +14,9 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Currency;
-
 @Component
 @Slf4j
-public class JwtTokenAdminInterceptor implements HandlerInterceptor {  // 是 Spring 框架中用于实现请求拦截功能的一个核心接口
+public class JwtTokenUserInterceptor implements HandlerInterceptor {  // 是 Spring 框架中用于实现请求拦截功能的一个核心接口
 
     @Autowired
     private JwtProperties jwtProperties;
@@ -33,10 +31,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {  // 是 Sp
         }
 
         // 从请求头中获取令牌
-        String token = request.getHeader(jwtProperties.getAdminTokenName());
+        String token = request.getHeader(jwtProperties.getUserTokenName());
 
         if (token == null || token.isEmpty()){
-            log.info("令牌非法或为空");
+            log.info("令牌为空");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // 返回401
             return false;
         }
@@ -44,10 +42,11 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {  // 是 Sp
         // 校验令牌
         try {
             log.info("jwt令牌校验{}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            BaseContext.setCurrentId(empId);
-            log.info("令牌校验通过 当前员工id:{}", empId);
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+            // 获取令牌中的当前用户id 并存储在当前线程存储区域
+            Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+            BaseContext.setCurrentId(userId);
+            log.info("令牌校验通过 当前用户id:{}", userId);
             return true;
         } catch (Exception e) {
             log.info("jwt非法{}", token);

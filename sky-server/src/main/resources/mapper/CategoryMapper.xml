@@ -12,8 +12,22 @@
         select * from category
         <where>
             <if test="name != null and name != ''">name like concat('%',#{name},'%')</if>
+            <if test="type != null">and type = #{type}</if>
+        </where>order by update_time desc
+    </select>
+
+    <select id="list" resultType="cn.zimeedu.sky.entity.Category">
+        select * from category
+        <where>
             <if test="type != null">type = #{type}</if>
-        </where>order by sort
+        </where>
+    </select>
+    <select id="listUser" resultType="cn.zimeedu.sky.entity.Category">
+        select * from category
+        <where>
+            <if test="type != null">type = #{type}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
     </select>
 
     <update id="update">

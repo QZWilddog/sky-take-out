@@ -6,11 +6,10 @@ import cn.zimeedu.sky.entity.Dish;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.result.Result;
 import cn.zimeedu.sky.service.DishService;
-import cn.zimeedu.sky.vo.DishVo;
+import cn.zimeedu.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,10 +51,10 @@ public class DishControoler {
     }
 
     @GetMapping("/{id}")
-    public Result<DishVo> getByIdWithFlavor(@PathVariable Long id){
+    public Result<DishVO> getByIdWithFlavor(@PathVariable Long id){
         log.info("查询菜品:{}", id);
 
-        DishVo dishVo =  dishService.getByIdWithFlavor(id);
+        DishVO dishVo =  dishService.getByIdWithFlavor(id);
 
         return Result.success(dishVo);
     }

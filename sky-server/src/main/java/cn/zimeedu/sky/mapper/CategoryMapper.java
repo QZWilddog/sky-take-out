@@ -32,7 +32,8 @@ public interface CategoryMapper {  // 分类表管理
      * */
     @Delete("delete from category where id = #{id}")
     void deleteById(Long id);
-    // 查询所有菜品或者套餐分类
-    @Select("select * from category where type = #{type}")
+    // 根据分类所有菜品或者套餐分类
     List<Category> list(Integer type);
+    //User端根据分类所有菜品或者套餐分类
+    List<Category> listUser(Integer type, Integer status);
 }

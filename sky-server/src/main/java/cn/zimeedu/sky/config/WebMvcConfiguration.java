@@ -1,6 +1,7 @@
 package cn.zimeedu.sky.config;
 
 import cn.zimeedu.sky.interceptor.JwtTokenAdminInterceptor;
+import cn.zimeedu.sky.interceptor.JwtTokenUserInterceptor;
 import cn.zimeedu.sky.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
+    // 用户端拦截器 上面是管理端
+    @Autowired
+    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
+
     /**
      * 注册自定义拦截器  重写MVC拦截器规则
      * 要让你的拦截器生效，需要将它注册到 Spring MVC 的拦截器链中
@@ -42,10 +47,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {  // 通过 InterceptorRegistry 可以注册拦截器，并设置拦截器的作用范围  是 Spring MVC 中的一个辅助类，用于注册和配置拦截器
-        // 注册拦截器并指定拦截路径
+        // 注册管理端拦截器并指定拦截路径
         registry.addInterceptor(jwtTokenAdminInterceptor)  // 将自定义的拦截器添加到拦截器链中
-                .addPathPatterns("/**") // 拦截所有请求
-                .excludePathPatterns("/admin/employee/login", "/admin/employee/logout"); // 排除登录和登出接口
+                .addPathPatterns("/admin/**") // 拦截所有请求
+                .excludePathPatterns("/admin/employee/login"); // 排除登录和登出接口
+        // 注册用户端拦截器并指定拦截路径
+        registry.addInterceptor(jwtTokenUserInterceptor)  // 将自定义的拦截器添加到拦截器链中
+                .addPathPatterns("/user/**") // 拦截所有请求
+                .excludePathPatterns("/user/shop/status","/user/user/login"); // 排除登录和登出接口
     }
 
     /**

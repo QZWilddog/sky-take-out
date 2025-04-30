@@ -2,7 +2,6 @@ package cn.zimeedu.sky.service.impl;
 
 import cn.zimeedu.sky.constant.MessageConstant;
 import cn.zimeedu.sky.constant.StatusConstant;
-import cn.zimeedu.sky.context.BaseContext;
 import cn.zimeedu.sky.dto.DishDTO;
 import cn.zimeedu.sky.dto.DishPageQueryDTO;
 import cn.zimeedu.sky.entity.Dish;
@@ -13,7 +12,7 @@ import cn.zimeedu.sky.mapper.DishMapper;
 import cn.zimeedu.sky.mapper.SetmealDishMapper;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.service.DishService;
-import cn.zimeedu.sky.vo.DishVo;
+import cn.zimeedu.sky.vo.DishVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
@@ -21,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,7 +59,7 @@ public class DishServiceImp implements DishService {
     public PageResult page(DishPageQueryDTO dishPageQueryDTO) {
         PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
 
-        Page<DishVo> dishPage = dishMapper.page(dishPageQueryDTO);
+        Page<DishVO> dishPage = dishMapper.page(dishPageQueryDTO);
 
         return new PageResult(dishPage.getTotal(), dishPage.getResult());
     }
@@ -91,13 +90,13 @@ public class DishServiceImp implements DishService {
     }
 
     @Override
-    public DishVo getByIdWithFlavor(Long id) {
+    public DishVO getByIdWithFlavor(Long id) {
 
         Dish dish = dishMapper.getById(id);
 
         List<DishFlavor> dishFlavor = dishFlavorMapper.getByDishId(id);
 
-        DishVo dishVo = new DishVo();
+        DishVO dishVo = new DishVO();
         BeanUtils.copyProperties(dish, dishVo);
 
         if (dishFlavor != null){
@@ -140,8 +139,28 @@ public class DishServiceImp implements DishService {
 
     @Override
     public List<Dish> list(Long categoryId) {
+        Dish dish = Dish.builder().categoryId(categoryId).build();
 
-        return dishMapper.list(categoryId);
+        return dishMapper.list(dish);
+    }
+
+    @Override
+    public List<DishVO> listWithFlavor(Dish dish) {
+        List<Dish> dishs = dishMapper.list(dish);
+
+        List<DishVO> dishVOS = new ArrayList<>();
+
+        dishs.forEach(dish1 -> {
+            DishVO dishVO = new DishVO();
+            BeanUtils.copyProperties(dish1, dishVO);
+
+            List<DishFlavor> dishFlavors = dishFlavorMapper.getByDishId(dish1.getId());
+
+            dishVO.setFlavors(dishFlavors);
+            dishVOS.add(dishVO);
+        });
+
+        return dishVOS;
     }
 
 }
