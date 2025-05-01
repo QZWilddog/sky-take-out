@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import jdk.jshell.Snippet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
     /**
      * 查询分类
      * @param type
@@ -32,7 +34,9 @@ public class CategoryController {
     @ApiOperation("查询分类")
     public Result<List<Category>> list(Integer type) {
         log.info("查询分类：{}", type);
+
         List<Category> list = categoryService.listUser(type, StatusConstant.ENABLE);
+
         return Result.success(list);
     }
 }

@@ -13,7 +13,7 @@
         <where>
             <if test="name != null and name != ''">name like concat('%',#{name},'%')</if>
             <if test="type != null">and type = #{type}</if>
-        </where>order by update_time desc
+        </where>order by sort desc
     </select>
 
     <select id="list" resultType="cn.zimeedu.sky.entity.Category">

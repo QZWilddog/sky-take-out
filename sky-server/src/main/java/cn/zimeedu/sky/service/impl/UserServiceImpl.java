@@ -10,9 +10,6 @@ import cn.zimeedu.sky.service.UserService;
 import cn.zimeedu.sky.utils.HttpClientUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImpl implements UserService {
     // 微信服务接口地址
     public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session";
     // 微信登陆固定传递的参数

@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -23,12 +25,18 @@ public class DishControoler {
 
     @Autowired
     private DishService dishService;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping
     @ApiOperation("新增菜品和对应口味")
     public Result<Object> save(@RequestBody DishDTO dishDTO){
         log.info("新增菜品和对应口味:{}", dishDTO);
         dishService.saveAndFlavor(dishDTO);
+
+        // 清除redis缓存
+        String key = "dish_" + dishDTO.getCategoryId();
+        cleanCache(key);
 
         return Result.success("菜品保存成功");
     }
@@ -47,6 +55,9 @@ public class DishControoler {
         log.info("删除菜品:{}", ids);
         dishService.delBatch(ids);
 
+        // 清除redis缓存,清楚所有dish开头的key
+        cleanCache("dish_*");
+
         return Result.success("删除菜品成功");
     }
 
@@ -64,6 +75,9 @@ public class DishControoler {
         log.info("修改菜品:{}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
 
+        // 清除redis缓存,清楚所有dish开头的key
+        cleanCache("dish_*");
+
         return Result.success("更改成功");
     }
 
@@ -71,6 +85,9 @@ public class DishControoler {
     public Result<Object> setStatus(@PathVariable Integer status, Long id){
         log.info("启售\\禁用菜品:{}-{}", id, status);
         dishService.setStatus(status, id);
+
+        // 清除redis缓存,清楚所有dish开头的key
+        cleanCache("dish_*");
 
         return Result.success("操作成功");
     }
@@ -81,5 +98,11 @@ public class DishControoler {
         List<Dish> dishes =  dishService.list(categoryId);
 
         return Result.success(dishes);
+    }
+
+    public void cleanCache(String pattern){
+        Set<String> keys = redisTemplate.keys(pattern);
+        redisTemplate.delete(keys);
+
     }
 }

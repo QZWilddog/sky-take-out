@@ -11,6 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class SetmealController {
     }
 
     @ApiOperation("新增套餐")
+    @CacheEvict(cacheNames = "setmealCache", key = "#setmealDTO.categoryId")  // 精确清理缓存 kys=setmealCache::1  这里不为User端查询分类下的套餐提供数据所以只管理清理旧缓存，而且如果不清除就会使reids中的数据项不一致  当然这里可以用CachePut但是这里可以统一用删除就用删除 只管删除
     @PostMapping
     public Result<Object> save(@RequestBody SetmealDTO setmealDTO){
         log.info("新增套餐：{}", setmealDTO);
@@ -53,6 +56,7 @@ public class SetmealController {
     }
 
     @PutMapping
+    @CacheEvict(cacheNames = "setmealCache", key = "#setmealDTO.categoryId")  // 这里如果更改categoryId那么在redis中，就是影响了两个数据项 这里无法做到精确删除 所以全删
     public Result<Object> update(@RequestBody SetmealDTO setmealDTO){
         log.info("修改套餐：{}", setmealDTO);
         setmealService.update(setmealDTO);
@@ -61,6 +65,7 @@ public class SetmealController {
     }
 
     @PostMapping("/status/{status}")
+    @CacheEvict(cacheNames = "setmealCache", allEntries = true)   // 因为redis中存储的是cacheName::categoryId 这里无法获取 做到精确删除 所以全删
     public Result<Object> setStatus(@PathVariable Integer status, Long id){
         log.info("更改套餐状态：{}", status);
         setmealService.setStatus(status, id);
@@ -69,6 +74,7 @@ public class SetmealController {
     }
 
     @DeleteMapping
+    @CacheEvict(cacheNames = "setmealCache", allEntries = true)   // 获取不到categoryId 这里无法做到精确删除 所以全删
     public Result<Object> delBatch(@RequestParam  List<Long> ids){
         log.info("批量删除套餐：{}", ids);
 

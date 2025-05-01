@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.ShoppingCartMapper">
+
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型 -->
+
+    <select id="list" resultType="cn.zimeedu.sky.entity.ShoppingCart">
+        select * from shopping_cart
+        <where>
+            <if test="dishId != null">dish_id = #{dishId}</if>
+            <if test="dishFlavor != null">and dish_flavor = #{dishFlavor}</if>
+            <if test="setmealId != null">and setmeal_id = #{setmealId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+        </where> order by create_time desc
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into shopping_cart (name, image, user_id, dish_id, setmeal_id, dish_flavor, amount, create_time)
+        values (#{name}, #{image}, #{userId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount}, #{createTime})
+    </insert>
+
+    <delete id="deleteByUserId">
+        delete from shopping_cart
+        <where>
+            <if test="userId != null">user_id = #{userId}</if>
+        </where>
+    </delete>
+</mapper>
