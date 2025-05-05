@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.OrderDetailMapper">
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型  parameterType="AddressBook"：这个属性指定了传入 SQL 语句的参数类型。-->
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount)
+            values
+            (#{name}, #{image}, #{orderId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount)
+        values
+            <foreach collection="orderDetails" item="orderDetail" separator=",">
+                (#{orderDetail.name}, #{orderDetail.image}, #{orderDetail.orderId}, #{orderDetail.dishId}, #{orderDetail.setmealId}, #{orderDetail.dishFlavor}, #{orderDetail.amount})
+            </foreach>
+
+    </insert>
+</mapper>

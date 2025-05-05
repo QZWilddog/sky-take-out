@@ -110,4 +110,21 @@ sky:
 
   wechat:
     appid: ${sky.wechat.appid}
+    # 用于标识和管理每个小程序的重要凭证
     secret: ${sky.wechat.secret}
+    # AppSecret是一个保密的字符串，它与AppID成对出现，主要用于服务器端的安全验证。
+
+    mchid: ${sky.wechat.mchid}
+    # 商户号
+#    mch-serial-no: ${sky.wechat.mch-serial-no}
+#    # 商户API证书的证书序列号
+#    private-key-file-path: ${sky.wechat.private-key-file-path}
+#    # 商户私钥文件
+#    api-v3-key: ${sky.wechat.api-v3-key}
+#    # 证书解密密钥
+#    we-chat-pay-cert-file-path: ${sky.wechat.private-key-file-path}
+#    # 平台证书
+    notify-url: ${sky.wechat.notify-url}
+    # 支付成功回调地址
+    refund-notify-url: ${sky.wechat.refund-notify-url}
+    # 退款成功的回调地址

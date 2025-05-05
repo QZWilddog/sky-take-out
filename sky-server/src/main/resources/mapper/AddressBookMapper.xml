@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.AddressBookMapper">
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型  parameterType="AddressBook"：这个属性指定了传入 SQL 语句的参数类型。-->
+
+    <select id="list" parameterType="AddressBook" resultType="AddressBook">
+        select * from address_book
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="phone != null">
+                and phone = #{phone}
+            </if>
+            <if test="isDefault != null">
+                and is_default = #{isDefault}
+            </if>
+        </where>
+    </select>
+
+    <update id="update" parameterType="addressBook">
+        update address_book
+        <set>
+            <if test="consignee != null">
+                consignee = #{consignee},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="detail != null">
+                detail = #{detail},
+            </if>
+            <if test="label != null">
+                label = #{label},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

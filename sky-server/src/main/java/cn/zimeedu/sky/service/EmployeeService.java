@@ -4,6 +4,7 @@ package cn.zimeedu.sky.service;
 import cn.zimeedu.sky.dto.EmployeeDTO;
 import cn.zimeedu.sky.dto.EmployeeLoginDTO;
 import cn.zimeedu.sky.dto.EmployeePageQueryDTO;
+import cn.zimeedu.sky.dto.EmployeePassWordDTO;
 import cn.zimeedu.sky.entity.Employee;
 import cn.zimeedu.sky.result.PageResult;
 
@@ -43,4 +44,6 @@ public interface EmployeeService {
      * 更改员工信息
      * */
     void update(EmployeeDTO employeeDTO);
+
+    void setPassword(EmployeePassWordDTO employeePassWordDTO);
 }

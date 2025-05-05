@@ -5,6 +5,7 @@ import cn.zimeedu.sky.constant.PasswordConstant;
 import cn.zimeedu.sky.dto.EmployeeDTO;
 import cn.zimeedu.sky.dto.EmployeeLoginDTO;
 import cn.zimeedu.sky.dto.EmployeePageQueryDTO;
+import cn.zimeedu.sky.dto.EmployeePassWordDTO;
 import cn.zimeedu.sky.mapper.EmployeeMapper;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.service.EmployeeService;
@@ -134,5 +135,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(employeeDTO, employee);
 
         employeeMapper.update(employee);
+    }
+
+    @Override
+    public void setPassword(EmployeePassWordDTO employeePassWordDTO) {
+
+        String oldPassword = DigestUtils.md5DigestAsHex(employeePassWordDTO.getOldPassword().getBytes(StandardCharsets.UTF_8));
+        String newPassword = DigestUtils.md5DigestAsHex(employeePassWordDTO.getNewPassword().getBytes(StandardCharsets.UTF_8));
+
+        Employee employee = employeeMapper.getById(employeePassWordDTO.getEmpId());
+        if (!employee.getPassword().equals(oldPassword)){
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        employee.setPassword(newPassword);
+
+        employeeMapper.update(employee);
+
     }
 }

@@ -1,8 +1,10 @@
 package cn.zimeedu.sky.controller.admin;
 
+import cn.zimeedu.sky.context.BaseContext;
 import cn.zimeedu.sky.dto.EmployeeDTO;
 import cn.zimeedu.sky.dto.EmployeeLoginDTO;
 import cn.zimeedu.sky.dto.EmployeePageQueryDTO;
+import cn.zimeedu.sky.dto.EmployeePassWordDTO;
 import cn.zimeedu.sky.result.PageResult;
 import cn.zimeedu.sky.service.EmployeeService;
 import cn.zimeedu.sky.constant.JwtClaimsConstant;
@@ -135,5 +137,14 @@ public class EmployeeController {
         log.info("更改员工信息：{}", employeeDTO);
         employeeService.update(employeeDTO);
         return Result.success("修改成功");
+    }
+
+    @PutMapping("/editPassword")
+    public Result<Object> setPassword(@RequestBody EmployeePassWordDTO employeePassWordDTO){
+        log.info("员工密码修改{}", employeePassWordDTO);
+        employeePassWordDTO.setEmpId(BaseContext.getCurrentId());
+        employeeService.setPassword(employeePassWordDTO);
+        return Result.success("修改成功");
+
     }
 }

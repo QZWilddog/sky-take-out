@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--头信息 约束 不动-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--        1. XML映射文件的名称与Mapper接口名称一致，并且将XML映射文件和Mapper接口放置在相同包下（同包同名）-->
+<!--        2. XML映射文件的namespace属性为Mapper接口全限定名(包名+类名)一致-->
+<mapper namespace="cn.zimeedu.sky.mapper.OrderMapper">
+    <!--    3. XML映射文件中sql语句的id与Mapper接口中的方法名一致，并保持返回类型一致。-->
+    <!--    resultType查询返回的单条记录向哪里封装所以是User(全类名)不是List<User>  指定 SQL 映射语句中参数的类型  parameterType="AddressBook"：这个属性指定了传入 SQL 语句的参数类型。-->
+
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into orders (number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark, phone, address, user_name, consignee, cancel_reason, rejection_reason, cancel_time, estimated_delivery_time, delivery_status, delivery_time, pack_amount, tableware_number, tableware_status)
+        values
+            (#{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{cancelTime}, #{payMethod}, #{payStatus}, #{amount}, #{remark}, #{phone}, #{address}, #{userName}, #{consignee}, #{cancelReason}, #{rejectionReason}, #{cancelTime}, #{estimatedDeliveryTime}, #{deliveryStatus}, #{deliveryTime}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus})
+    </insert>
+
+    <update id="update" parameterType="cn.zimeedu.sky.entity.Orders">
+        update orders
+        <set>
+            <if test="cancelReason != null and cancelReason!='' ">
+                cancel_reason=#{cancelReason},
+            </if>
+            <if test="rejectionReason != null and rejectionReason!='' ">
+                rejection_reason=#{rejectionReason},
+            </if>
+            <if test="cancelTime != null">
+                cancel_time=#{cancelTime},
+            </if>
+            <if test="payStatus != null">
+                pay_status=#{payStatus},
+            </if>
+            <if test="payMethod != null">
+                pay_method=#{payMethod},
+            </if>
+            <if test="checkoutTime != null">
+                checkout_time=#{checkoutTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="list" resultType="cn.zimeedu.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where> order by order_time desc
+    </select>
+    
+    <select id="pageQuery" resultType="cn.zimeedu.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="number != null">and number like concat('%',#{number},'%')</if>
+            <if test="phone != null">and phone = #{phone}</if>
+            <if test="status != null">and status = #{status}</if>
+            <if test="beginTime != null">and order_time >= #{beginTime}</if>
+            <if test="endTime != null">and #{endTime} >= order_time  </if>
+        </where>
+    </select>
+</mapper>

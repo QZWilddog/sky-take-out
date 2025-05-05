@@ -21,3 +21,18 @@ sky:
   wechat:
     appid: wxcebce8223875b49e
     secret: 1a15ac1c6ac386c0b9a89ad30f415876
+
+    mchid: 1561414331
+    # 商户号 传智教育的
+#    mch-serial-no: ${sky.wechat.mch-serial-no}
+#    # 商户API证书的证书序列号
+#    private-key-file-path: ${sky.wechat.private-key-file-path}
+#    # 商户私钥文件
+#    api-v3-key: ${sky.wechat.api-v3-key}
+    # 证书解密密钥
+#    we-chat-pay-cert-file-path: ${sky.wechat.private-key-file-path}
+#    # 平台证书
+    notify-url:  https://32784d60.r10.cpolar.top/notify/paySuccess
+    # 支付成功回调地址
+    refund-notify-url: https://32784d60.r10.cpolar.top/notify/refundSuccess
+    # 退款成功的回调地址

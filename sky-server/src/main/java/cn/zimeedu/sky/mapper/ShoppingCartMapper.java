@@ -19,6 +19,9 @@ public interface ShoppingCartMapper {
     // 新增购物车数据
     void save(ShoppingCart shoppingCart);
 
-    // 根据userId查询数据
+    // 根据userId删除购物车数据
     void deleteByUserId(ShoppingCart shoppingCart);
+
+    // 批量新增购物车数据
+    void saveBatch(List<ShoppingCart> shoppingCarts);
 }
