@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController("userOrderController")
 @RequestMapping("user/order")
 @Slf4j
@@ -95,5 +98,15 @@ public class OrderController {
         orderService.saveGetById(id);
 
         return Result.success("操作成功");
+    }
+
+    // 客户催单
+    @GetMapping("/reminder/{id}")
+    public Result<Object> reminder(@PathVariable Long id){
+        log.info("订单：{}催单", id);
+
+        orderService.reminder(id);
+
+        return Result.success("订单催单成功");
     }
 }

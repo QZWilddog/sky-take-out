@@ -17,6 +17,8 @@ import cn.zimeedu.sky.vo.OrderPaymentVO;
 import cn.zimeedu.sky.vo.OrderStatisticsVO;
 import cn.zimeedu.sky.vo.OrderSubmitVO;
 import cn.zimeedu.sky.vo.OrderVO;
+import cn.zimeedu.sky.websocket.WebSocketServer;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -29,7 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +52,8 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Override
     @Transactional
@@ -141,7 +147,8 @@ public class OrderServiceImpl implements OrderService {
         OrderPaymentVO orderPaymentVO = jsonObject.toJavaObject(OrderPaymentVO.class);
         orderPaymentVO.setPackageStr(jsonObject.getString("package"));
 
-        // 微信小程序支付功能需要企业资质，所以完成不了，这里直接调用微信服务器推送的支付结果 来更改数据库数据
+        // 微信小程序支付功能需要企业资质，所以完成不了，没有微信服务器发送支付成功的请求给我们
+        // 所以这里直接调用支付成功后的操作更改数据库数据
         paySuccess(ordersPaymentDTO.getOrderNumber());
 
         return orderPaymentVO;
@@ -153,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
      * @param outTradeNo
      */
     public void paySuccess(String outTradeNo) {
+
 
         // 根据订单号查询订单
         Orders ordersDB = orderMapper.getByNumber(outTradeNo);
@@ -166,6 +174,35 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        // 通过websocket想客户端浏览器推送消息 推送的是一个json格式的数据 有 type orderId content
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 1); // 1表示来单提醒 2表示客户催单
+        map.put("orderId", ordersDB.getId());
+        map.put("content", outTradeNo);
+
+        String json = JSON.toJSONString(map);
+
+        webSocketServer.sendToAllClient(json);
+    }
+
+    @Override
+    public void reminder(Long id){
+        // 根据订单号查询订单
+        Orders ordersDB = orderMapper.getById(id);
+
+        // 校验数据合法性
+        if (ordersDB == null || ordersDB.getStatus().equals(Orders.CONFIRMED)){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 2);
+        map.put("orderId", id);
+        map.put("content", "订单号：" + ordersDB.getNumber());
+
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
     }
 
 
