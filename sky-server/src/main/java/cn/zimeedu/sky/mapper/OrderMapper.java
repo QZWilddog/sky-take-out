@@ -1,5 +1,6 @@
 package cn.zimeedu.sky.mapper;
 
+import cn.zimeedu.sky.dto.GoodsSalesDTO;
 import cn.zimeedu.sky.dto.OrdersPageQueryDTO;
 import cn.zimeedu.sky.entity.Orders;
 import com.github.pagehelper.Page;
@@ -49,4 +50,10 @@ public interface OrderMapper {
 
     // 根据条件统计营业额
     Double sumByMap(Map<String, Object> map);
+
+    // 查询每天订单数
+    Integer countByMap(Map<String, Object> map);
+
+    // 查询销量排名top10
+    List<GoodsSalesDTO> getSalesTop(LocalDateTime begin, LocalDateTime end);
 }

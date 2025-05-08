@@ -2,7 +2,10 @@ package cn.zimeedu.sky.controller.admin;
 
 import cn.zimeedu.sky.result.Result;
 import cn.zimeedu.sky.service.ReportService;
+import cn.zimeedu.sky.vo.OrderReportVO;
+import cn.zimeedu.sky.vo.SalesTop10ReportVO;
 import cn.zimeedu.sky.vo.TurnoverReportVO;
+import cn.zimeedu.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +35,36 @@ public class ReportController {
         TurnoverReportVO turnoverReportVO =  reportService.getTurnoverStatistics(begin, end);
 
         return Result.success(turnoverReportVO);
+    }
+
+    @GetMapping("/userStatistics")
+    @ApiOperation("用户总量与每日新增用户总量")
+    public Result<UserReportVO> userStatistice(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                               @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end){
+        log.info("统计用户总量与每日新增用户总量：{}-{}", begin, end);
+
+        UserReportVO userReportVO = reportService.getUserStatistice(begin, end);
+
+        return Result.success(userReportVO);
+    }
+
+    @GetMapping("/ordersStatistics")
+    @ApiOperation("订单统计")
+    public Result<OrderReportVO> ordersStatistics(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end){
+        log.info("订单统计：{}-{}", begin, end);
+        OrderReportVO orderReportVO = reportService.getOrdersStatistics(begin, end);
+
+        return Result.success(orderReportVO);
+    }
+
+    @GetMapping("/top10")
+    @ApiOperation("查询销量排名top10接口")
+    public Result<SalesTop10ReportVO> salesTop10(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                                            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end){
+        log.info("查询销量排名top10接口：{}-{}", begin, end);
+
+        SalesTop10ReportVO salesTop10ReportVO = reportService.getSalesTop10(begin, end);
+        return Result.success(salesTop10ReportVO);
     }
 }

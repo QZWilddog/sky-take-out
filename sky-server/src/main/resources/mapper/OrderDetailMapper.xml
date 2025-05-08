@@ -10,16 +10,16 @@
 
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount)
+        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount, number)
             values
-            (#{name}, #{image}, #{orderId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount})
+            (#{name}, #{image}, #{orderId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{amount}, #{number})
     </insert>
 
     <insert id="insertBatch">
-        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount)
+        insert into order_detail (name, image, order_id, dish_id, setmeal_id, dish_flavor, amount, number)
         values
             <foreach collection="orderDetails" item="orderDetail" separator=",">
-                (#{orderDetail.name}, #{orderDetail.image}, #{orderDetail.orderId}, #{orderDetail.dishId}, #{orderDetail.setmealId}, #{orderDetail.dishFlavor}, #{orderDetail.amount})
+                (#{orderDetail.name}, #{orderDetail.image}, #{orderDetail.orderId}, #{orderDetail.dishId}, #{orderDetail.setmealId}, #{orderDetail.dishFlavor}, #{orderDetail.amount}, #{orderDetail.number})
             </foreach>
 
     </insert>
