@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DishMapper {  // 菜品表管理
@@ -46,4 +47,6 @@ public interface DishMapper {  // 菜品表管理
 
     // // 动态条件查询菜品
     List<Dish> list(Dish dish);
+    // 根据条件统计菜品数量
+    Integer countByMap(Map map);
 }

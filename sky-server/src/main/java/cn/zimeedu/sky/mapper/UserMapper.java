@@ -23,4 +23,6 @@ public interface UserMapper {
 
     // 查询每日新增用户数量与用户总数
     Integer getByMap(Map<String, Object> map);
+    // 根据条件统计新增用户数量
+    Integer countByMap(Map map);
 }

@@ -8,6 +8,7 @@ import cn.zimeedu.sky.vo.TurnoverReportVO;
 import cn.zimeedu.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -66,5 +67,12 @@ public class ReportController {
 
         SalesTop10ReportVO salesTop10ReportVO = reportService.getSalesTop10(begin, end);
         return Result.success(salesTop10ReportVO);
+    }
+
+    @GetMapping("/export")
+    @ApiOperation("导出Excel表格数据 没有返回值 导出报表功能本质是文件下载 通过输出流将Excel文件下载到客户端浏览器")
+    public void getExport(HttpServletResponse response){
+        log.info("导出表格报表数据");
+        reportService.ExportBusinessData(response);
     }
 }
